@@ -1,56 +1,27 @@
 import React, { useState } from 'react'
+import Addd from './Addd';
+import Edit from './Edit';
+import {PlusOutlined, EditOutlined} from "@ant-design/icons";
 import "./style.css";
-import {PlusOutlined} from "@ant-design/icons";
-import {Button, Form, Input, Modal} from 'antd';
 
-const categories = () => {
+const categories = ({categories, setCategories}) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-    // client tarafindan veritabanina ekleme icin fetch ozelligini kullaniriz
-    
-
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   return (
     <ul className='flex gap-4 md:flex-col text-lg'>
-        <li className='category-item'>
-            <span>All</span>
-        </li>
-        <li className='category-item'>
-            <span>Seasional Drinks</span>
-        </li>
-        <li className='category-item'>
-            <span>Espresso Drinks</span>
-        </li>
-        <li className='category-item'>
-            <span>Refresha Drinks</span>
-        </li>
-        <li className='category-item'>
-            <span>Tea & Other Beverages</span>
-        </li>
-        <li className='category-item'>
-            <span>Cakes & Cookies</span>
-        </li>
-        <li className='category-item'>
-            <span>Sandwiches</span>
-        </li>
-        <li className='category-item'>
-            <span>Sandwiches</span>
-        </li>
-        <li className='category-item'>
-            <span>Sandwiches</span>
-        </li>
+        {categories.map((item) => (
+            <li className='category-item' key={item._id}>
+                <span>{item.title}</span>
+            </li>
+        ))}
         <li className='category-item !bg-purple-800 hover:opacity-90' onClick={()=> setIsAddModalOpen(true)}>
             <PlusOutlined className='md:text-2xl' />
         </li>
-        <Modal title="Add New Category" open={isAddModalOpen} onCancel={()=> setIsAddModalOpen(false)} footer={false}>
-            <Form layout='vertical'>
-                <Form.Item name="title" label="Add Category" rules={[{required: true, message: "Category field can not be null!"}]}>
-                    <Input/>
-                </Form.Item>
-                <Form.Item className='flex justify-end mb-0'>
-                    <Button type='primary' htmlType='submit'>Add</Button>
-                </Form.Item>
-            </Form>
-        </Modal>
+        <li className='category-item !bg-orange-800 hover:opacity-90' onClick={()=> setIsEditModalOpen(true)}>
+            <EditOutlined className='md:text-2xl' />
+        </li>
+        <Addd isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} categories={categories} setCategories={setCategories} />
+        <Edit isEditModalOpen={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen} />
     </ul>
   )
 }
